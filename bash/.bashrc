@@ -3,28 +3,32 @@
 # if not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+source /usr/local/Cellar/git/2.33.0/etc/bash_completion.d/git-prompt.sh
+
 # prompt
-PS1="\[\033[34m\]strand:\[\033[00m\]"
+PS1="\[\033[34m\]strand:"
 PS1+="\[\033[33m\]\w"
+PS1+='\[\033[90m\]$(__git_ps1 " (%s)")'
 PS1+="\[\033[31m\] ❯ \[\033[00m\]"
 export PS1;
 
 # aliases
 alias ls='exa'
+alias lst='exa -T'
+alias lsg='exa -T --git-ignore'
+
 alias vi='nvim'
 alias vim='nvim'
-alias semver='git semver'
-alias gitssh='eval `ssh-agent` && ssh-add ~/.ssh/srht.id_ed25519 && ssh-add ~/.ssh/github.id_ed25519'
-alias youtube-dl='youtube-dl -x --audio-format m4a'
+
+alias ga='git add'
 alias gs='git status'
 alias gd='git diff'
+alias gds='git diff --staged'
 alias gl='git log'
 alias glo='git log --oneline'
-#alias ssh_ket='ssh -i "~/.ssh/ket-so-amazon-linux-2.pem" ec2-user@ec2-3-17-59-152.us-east-2.compute.amazonaws.com'
+alias gp='git push'
 
-#scp_ket() {
-    #scp -i "~/.ssh/ket-so-amazon-linux-2.pem" -r "$1" ec2-user@ec2-3-17-59-152.us-east-2.compute.amazonaws.com:$2/
-#}
+alias youtube-dl='youtube-dl -x --audio-format m4a'
 
 # Prevent cron from telling us we got mail
 unset MAILCHECK
