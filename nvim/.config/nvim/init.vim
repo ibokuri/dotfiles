@@ -37,11 +37,11 @@ call plug#begin('~/.vim/plugged')
     Plug 'itchyny/vim-gitbranch'                     " Git for Lightline
 
     " Languages
-    "Plug 'bfrg/vim-cpp-modern'                       " C++
+    Plug 'bfrg/vim-cpp-modern'                       " C++
     Plug 'zig-lang/zig.vim'                          " Zig
-    "Plug 'rust-lang/rust.vim'                        " Rust
-    "Plug 'fatih/vim-go'                              " Golang
-    "Plug 'plasticboy/vim-markdown'                   " Markdown
+    Plug 'rust-lang/rust.vim'                        " Rust
+    Plug 'fatih/vim-go'                              " Golang
+    Plug 'plasticboy/vim-markdown'                   " Markdown
 
     " Code
     Plug 'tpope/vim-fugitive'                        " Git
@@ -50,7 +50,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'neoclide/coc.nvim', {'branch': 'release'}  " Code completion
     Plug 'raimondi/delimitmate'                      " Completion for delimiters
     Plug 'markonm/traces.vim'                        " Match/substitute preview
-    Plug 'tpope/vim-eunuch'                          " UNIX helpers
+    Plug 'tpope/vim-eunuch'                          " Unix helpers
 
     " Projects
     Plug 'airblade/vim-rooter'                       " Project root
@@ -104,7 +104,6 @@ set nolinebreak                        " Wrap long lines at a character in 'brea
                                        " affect a file's content, just it's appearance.
 set colorcolumn=+1                     " highlight column after 'textwidth'
 set backupskip=/tmp/*,/private/tmp/*"  " Make Vim able to edit crontab files
-set ff=unix
 
 " Leader key
 let mapleader = ","
@@ -148,9 +147,6 @@ endif
 if !isdirectory(expand(&backupdir))
     call mkdir(expand(&backupdir), "p")
 endif
-
-" YAML
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 " }}}}
 
@@ -422,24 +418,19 @@ let g:lightline = {
       \ },
       \
       \ 'component_function': {
-      \   'filename': 'LightlineFilename',
-      \   'gitbranch': 'gitbranch#name',
+      \   'gitbranch': 'gitbranch#name'
       \ },
       \
       \ }
 
-function! LightlineFilename()
-  let root = fnamemodify(get(b:, 'git_dir'), ':h')
-  let path = expand('%:p')
-  if path[:len(root)-1] ==# root
-    return path[len(root)+1:]
-  endif
-  return expand('%')
-endfunction
-
 
 " Markdown
 let g:vim_markdown_folding_disabled = 1
+
+" Fugitive
+nnoremap <leader>gd :Gdiffsplit!<CR>
+nnoremap gdh :diffget //2<CR>
+nnoremap gdl :diffget //3<CR>
 
 " }}}
 
