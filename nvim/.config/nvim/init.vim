@@ -165,7 +165,8 @@ nnoremap <leader>S :source %<cr>
 nnoremap <leader>m K
 
 " Find file
-nnoremap <leader>f :FZF<cr>
+nnoremap <leader>f :Files<cr>
+nnoremap <leader>F :GFiles<cr>
 
 " Kill window
 nnoremap K :q<cr>
@@ -249,7 +250,7 @@ nnoremap zl :let@z=@"<cr>x$p:let @"=@z<cr>
 " Search/Movement {{{
 
 " Ripgrep
-nnoremap <leader>g :Rg<cr>
+nnoremap <leader>r :Rg<cr>
 
 " Use sane regexes
 nnoremap / /\v
@@ -386,11 +387,7 @@ let g:NERDTreeNodeDelimiter = "\u00a0"
 noremap <leader>N :NERDTreeToggle<cr>
 
     " Refresh NERDTree
-nmap <Leader>r :NERDTreeFocus<cr>R<c-w><c-p>
-
-
-" FZF
-let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+nmap <Leader>R :NERDTreeFocus<cr>R<c-w><c-p>
 
 
 " Ripgrep
