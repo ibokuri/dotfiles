@@ -165,8 +165,8 @@ nnoremap <leader>S :source %<cr>
 nnoremap <leader>m K
 
 " Find file
-nnoremap <leader>f :Files<cr>
-nnoremap <leader>F :GFiles<cr>
+nnoremap <leader>f :GFiles<cr>
+nnoremap <leader>F :Files<cr>
 
 " Kill window
 nnoremap K :q<cr>
@@ -329,7 +329,6 @@ vnoremap <Space> za
 " Plugins (II) {{{
 
 " Ale
-
     " Options
 let g:ale_lint_delay=0
 let g:ale_sign_error = '✗'
@@ -405,20 +404,22 @@ let g:lightline = {}
 let g:lightline.subseparator = { 'left': '', 'right': '' }
 
 let g:lightline = {
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'modified' ],
-      \             [ 'gitbranch' ] ],
-      \
-      \   'right': [ [ 'lineinfo' ],
-      \              [ 'filetype' ] ]
-      \ },
-      \
-      \ 'component_function': {
-      \   'gitbranch': 'gitbranch#name'
-      \ },
-      \
-      \ }
+    \ 'colorscheme': 'dracula',
+    \
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'readonly', 'filename', 'modified' ],
+    \             [ 'gitbranch' ] ],
+    \
+    \   'right': [ [ 'lineinfo' ],
+    \              [ 'filetype' ] ]
+    \ },
+    \
+    \ 'component_function': {
+    \   'gitbranch': 'gitbranch#name'
+    \ },
+    \
+    \ }
 
 
 " Markdown
@@ -445,7 +446,8 @@ endif
 hi StatusLine ctermbg=NONE cterm=NONE
 
 "colorscheme base16-gruvbox-dark-hard
-colorscheme base16-atelier-dune
+"colorscheme base16-atelier-dune
+colorscheme dracula
 
 "let g:oceanic_next_terminal_bold = 1
 "let g:oceanic_next_terminal_italic = 1
