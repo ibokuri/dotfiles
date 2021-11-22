@@ -81,8 +81,7 @@ noremap <leader>v <C-w>v
 nnoremap <leader><leader> :b#<cr>
 
 " Select entire buffer
-nnoremap vaa ggvGg_
-nnoremap Vaa ggVG
+nnoremap vaa ggVG
 
 " Tabs to spaces
 nnoremap <leader><Tab> :retab<cr>
