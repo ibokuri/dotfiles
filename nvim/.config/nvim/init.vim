@@ -1,13 +1,146 @@
-" init.vim
+" General settings {{{
 
-" Preamble {{{
+set expandtab
+set shiftwidth=4
+set tabstop=4
+set hidden
+set signcolumn=yes:2
+set relativenumber
+set number
+set termguicolors
+set undofile
+set spell
+set title
+set ignorecase
+set smartcase
+set wildmode=longest:full,full
+set nowrap
+set list
+set listchars=tab:▸\ ,trail:·
+set mouse=a
+set scrolloff=8
+set sidescrolloff=8
+set nojoinspaces
+set splitright
+set clipboard=unnamedplus
+set confirm
+set exrc
+set backup
+set backupdir=~/.local/share/nvim/backup/
+set updatetime=300 " Reduce time for highlighting other references
+set redrawtime=10000 " Allow more time for loading syntax on large files
+set foldlevelstart=0
+set foldmethod=marker
+set foldmarker={{{,}}}
 
-set shell=/bin/bash
-let g:is_bash = 1          " For bash syntax highlighting
-filetype plugin indent on  " Enable loading plugin and indent files for
-                           " specific file types. It will turn on filetype if
-                           " it's not already on.
-set nocompatible
+" Ensure Vim returns to the same line when reopening files.
+augroup line_return
+    au!
+    au BufReadPost *
+    \ if line("'\"") > 0 && line ("'\"") <= line("$") |
+    \     execute 'normal! g`"zvzz' |
+    \ endif
+augroup END
+
+" }}}
+
+" Mappings {{{
+
+let mapleader = ","
+
+" Configuration
+nmap <leader>ce :edit ~/.config/nvim/init.vim<cr>
+nmap <leader>cc :edit ~/.config/nvim/coc-settings.json<cr>
+nmap <leader>cr :source ~/.config/nvim/init.vim<cr>
+
+" Save
+nnoremap s :w<cr>
+
+" Quit
+nnoremap K :q<cr>
+
+" Window tabs
+nnoremap <leader>t :tabnew<cr>
+nnoremap <leader>> :tabnext<cr>
+nnoremap <leader>< :tabprev<cr>
+
+" Window splits
+nnoremap <leader>wv :vs 
+nnoremap <leader>ws :split 
+
+" Buffer navigation
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+
+" Duplicate current buffer
+noremap <leader>v <C-w>v
+
+" Switch to previous buffer
+nnoremap <leader><leader> :b#<cr>
+
+" Select entire buffer
+nnoremap vaa ggvGg_
+nnoremap Vaa ggVG
+
+" Tabs to spaces
+nnoremap <leader><Tab> :retab<cr>
+
+" Move by displayed lines
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
+
+" Aliases for start/end of line
+noremap H ^
+noremap L $
+vnoremap L g_
+
+" Insert blank lines
+nnoremap <cr> o<esc>
+
+" Split lines
+nnoremap S i<cr><esc><right>
+
+" Select current line (excluding indentation)
+nnoremap vv ^vg_
+
+" Yank current line
+nnoremap Y y$
+
+" Delete current line
+nnoremap D d$
+
+" Remove trailing whitespace
+nnoremap <leader>ww mz:%s/\s\+$//<cr>:let @/=''<cr>`z
+
+" Find
+nnoremap <leader>r :Rg<cr>
+nnoremap <leader>f :Files<cr>
+nnoremap <leader>F :GFiles<cr>
+
+" Substitute
+nnoremap <leader>s :%s/
+
+" Sane search regexes
+nnoremap / /\v
+vnoremap / /\v
+
+" Keep search matches in the middle of the window
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" Clear search highlighting
+nnoremap <leader><space> :let @/=""<cr>
+
+" Open current directory in Finder
+nnoremap <leader>O :!open .<cr>
+
+" Toggle folds
+nnoremap <Space> za
+vnoremap <Space> za
 
 " }}}
 
@@ -22,307 +155,44 @@ packadd termdebug
 " vim-plug
 call plug#begin('~/.vim/plugged')
     " Colors
-    Plug 'chriskempson/base16-vim'                   " Base-16
-    Plug 'dracula/vim', { 'as': 'dracula' }          " Dracula
-    Plug 'sainnhe/forest-night'                      " Forest Night
-    Plug 'srcery-colors/srcery-vim'                  " Srcery
-    Plug 'mhartington/oceanic-next'                  " Oceanic Next
+    Plug 'chriskempson/base16-vim'
+    Plug 'dracula/vim', { 'as': 'dracula' }
 
     " NERD
-    Plug 'scrooloose/nerdtree'                       " Tree Explorer
-    Plug 'scrooloose/nerdcommenter'                  " Comments
+    Plug 'scrooloose/nerdcommenter'
+    Plug 'scrooloose/nerdtree'
 
     " Status Lines
-    Plug 'itchyny/lightline.vim'                     " Lightline
-    Plug 'itchyny/vim-gitbranch'                     " Git for Lightline
+    Plug 'itchyny/lightline.vim'
+    Plug 'itchyny/vim-gitbranch'
 
     " Languages
-    Plug 'bfrg/vim-cpp-modern'                       " C++
-    Plug 'zig-lang/zig.vim'                          " Zig
-    Plug 'rust-lang/rust.vim'                        " Rust
-    Plug 'fatih/vim-go'                              " Golang
-    Plug 'plasticboy/vim-markdown'                   " Markdown
+    Plug 'fatih/vim-go'
+    Plug 'rust-lang/rust.vim'
+    Plug 'zig-lang/zig.vim'
 
     " Code
-    Plug 'tpope/vim-fugitive'                        " Git
-    Plug 'airblade/vim-gitgutter'                    " Git gutter
-    Plug 'w0rp/ale'                                  " Linter
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}  " Code completion
-    Plug 'raimondi/delimitmate'                      " Completion for delimiters
-    Plug 'markonm/traces.vim'                        " Match/substitute preview
-    Plug 'tpope/vim-eunuch'                          " Unix helpers
+    Plug 'airblade/vim-gitgutter'
+    Plug 'markonm/traces.vim'
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'raimondi/delimitmate'
+    Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-eunuch'
+    Plug 'w0rp/ale'
 
     " Projects
-    Plug 'airblade/vim-rooter'                       " Project root
+    Plug 'airblade/vim-rooter'
 
     " Files
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() }} " Fuzzy finder
-    Plug 'junegunn/fzf.vim'                            " Fuzzy finder
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() }}
 
     " Windows/Buffers/Tabs
-    Plug 'qpkorr/vim-bufkill'                        " Close buffer w/out changing layout
+    Plug 'qpkorr/vim-bufkill'
 
     " Icons
-    Plug 'ryanoasis/vim-devicons'                    " Nerd Icons
+    Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
-
-" }}}
-
-" Options {{{
-
-" Basic
-set encoding=UTF-8                     " Character encoding.
-set mouse=a                            " Enable mouse clicks.
-set guicursor+=n-v-c-i:blinkon0        " Disable blinking.
-set autochdir                          " Changes directories to that of the edited file's.
-set modelines=0                        " Sets number of lines Vim checks for set commands.
-set autoindent                         " Automatically indent lines (matching previous indent).
-set showcmd                            " Show info about current command in the last line of screen.
-set hidden                             " Under default settings, making changes and then opening a new
-                                       "  file will display 'No write since last change'.
-                                       "  When on, current buffers with unsaved changes will be hidden
-                                       "  instead of closed, letting you edit the new file.
-set visualbell                         " Flashes the screen when EOF or EOL is hit.
-set ttyfast                            " Basically speeds up scrolling.
-set ruler                              " Show the line and column number of the cursor position.
-set backspace=indent,eol,start         " Allow backspacing over autoindent, line
-                                       " breaks, and the start of insert.
-set number                             " Show line numbers.
-set relativenumber                     " Show line numbers relative to the line you're on.
-set laststatus=2                       " Show status line: 0: never, 1: only if there are 2+ windows, 2: always.
-set history=1000                       " A history of : commands and search patterns (max: 10000).
-set undofile                           " Automatically save undo history when editing a file and restores it when you edit again.
-set undoreload=10000                   " Store buffer contents in undo tree if < 10,000 lines.
-set lazyredraw                         " The screen won't be redrawn while execing macros/commands
-set showbreak=↪                        " Character indicating start of lines that've been wrapped.
-set splitbelow                         " When splitting, put new window below current one.
-set splitright                         " When splitting, put new window to the right of current one.
-set shiftround                         " Tabs will be set to value of 'shiftwidth'.
-set title                              " Window title will be set to value of 'titlestring'.
-set nolinebreak                        " Wrap long lines at a character in 'breakat'. It will NOT
-                                       " affect a file's content, just it's appearance.
-set colorcolumn=+1                     " highlight column after 'textwidth'
-set backupskip=/tmp/*,/private/tmp/*"  " Make Vim able to edit crontab files
-
-" Leader key
-let mapleader = ","
-
-" GUI
-if !has('gui_running')
-    set guioptions-=m  " Disable menu bar.
-    set guioptions-=T  " Disable tool bar.
-endif
-
-" Ensure Vim returns to the same line when reopening files.
-augroup line_return
-    au!
-    au BufReadPost *
-    \ if line("'\"") > 0 && line ("'\"") <= line("$") |
-    \     execute 'normal! g`"zvzz' |
-    \ endif
-augroup END
-
-" Tabs
-set tabstop=4                    " Number of spaces a <TAB> consists of.
-set expandtab                    " Insert spaces whenever <TAB> is pressed.
-set shiftwidth=4                 " Number of spaces inserted for indentation.
-
-autocmd FileType c setlocal tabstop=8 shiftwidth=8
-
-" Wrapping
-set nowrap                       " Disable word wrapping.
-
-" Undos & Backups
-set backup                       " Enable backups
-set noswapfile                   " Disable swap files.
-
-set undodir=~/.vim/tmp/undo/     " Directory for undo files.
-set backupdir=~/.vim/tmp/backup/ " Directory for backup files.
-
-" Make the undo/backup directories if they don't exist.
-if !isdirectory(expand(&undodir))
-    call mkdir(expand(&undodir), "p")
-endif
-if !isdirectory(expand(&backupdir))
-    call mkdir(expand(&backupdir), "p")
-endif
-
-" }}}}
-
-" Mappings {{{
-
-" Save
-nnoremap s :w<cr>
-
-" Sudo Save
-nnoremap <leader>w :w !sudo tee "%"<cr>
-
-" Source %
-nnoremap <leader>S :source %<cr>
-
-" Manpage for the word you're on
-nnoremap <leader>m K
-
-" Find file
-nnoremap <leader>f :GFiles<cr>
-nnoremap <leader>F :Files<cr>
-
-" Kill window
-nnoremap K :q<cr>
-
-" Turn tabs to spaces
-nnoremap <leader><Tab> :retab<cr>
-
-" Make all windows equal
-nnoremap - :wincmd =<cr>
-
-" Splits
-nnoremap <leader>wv :vs 
-nnoremap <leader>ws :split 
-
-" Switch to previous buffer
-nnoremap <leader><leader> :b#<cr>
-
-" Toggle line numbers
-nnoremap <leader>n :setlocal number!<cr>
-
-" Tabs (window tabs, not editing tabs)
-nnoremap <leader>t :tabnew<cr>
-nnoremap <leader>> :tabnext<cr>
-nnoremap <leader>< :tabprev<cr>
-
-" Wrap toggle
-nnoremap <leader>W :set wrap!<cr>
-
-" Insert blank lines with Enter
-nnoremap <cr> o<esc>
-
-" Split lines
-nnoremap S i<cr><esc><right>
-
-" Yank to EOL
-nnoremap Y y$
-
-" Yank entire file
-nnoremap <leader>Y ggvGg_"+y``
-
-" Clean trailing whitespace
-nnoremap <leader>ww mz:%s/\s\+$//<cr>:let @/=''<cr>`z
-
-" Select yanked section
-nnoremap <leader>V V`]
-
-" Select entire buffer
-nnoremap vaa ggvGg_
-nnoremap Vaa ggVG
-
-" Uppercase word
-    " Usage: type in lowercase, and at the end, press <c-u> to uppercase it.
-inoremap <C-u> <esc>mzgUiw`za
-
-" Substitute
-nnoremap <leader>s :%s/
-
-" Select contents of current line excluding indentation
-nnoremap vv ^vg_
-
-" Typos
-command! -bang E e<bang>
-command! -bang Q q<bang>
-command! -bang W w<bang>
-command! -bang QA qa<bang>
-command! -bang Qa qa<bang>
-command! -bang Wa wa<bang>
-command! -bang WA wa<bang>
-command! -bang Wq wq<bang>
-command! -bang WQ wq<bang>
-
-" Open current directory in Finder
-nnoremap <leader>O :!open .<cr>
-
-" Zip Right
-" Move character under cursor to EOL. Useful for when you mis-typed print()foo.
-nnoremap zl :let@z=@"<cr>x$p:let @"=@z<cr>
-
-" }}}
-
-" Search/Movement {{{
-
-" Ripgrep
-nnoremap <leader>r :Rg<cr>
-
-" Use sane regexes
-nnoremap / /\v
-vnoremap / /\v
-
-set ignorecase
-set smartcase
-set incsearch
-set showmatch
-set hlsearch
-set gdefault
-
-set scrolloff=5
-set sidescroll=1
-set sidescrolloff=10
-
-" Clear search highlighting
-nnoremap <leader><space> :let @/=""<cr>
-
-" Keep search matches in the middle of the window
-nnoremap n nzzzv
-nnoremap N Nzzzv
-
-" Same when jumping around
-nnoremap g; g;zz
-nnoremap g, g,zz
-nnoremap <c-o> <c-o>zz
-
-" Substitute
-nnoremap <leader>s :%s/
-
-" Delete to EOL
-nnoremap D d$
-
-" Aliases for start/end of line
-noremap H ^
-noremap L $
-vnoremap L g_
-
-" Move by displayed lines
-noremap j gj
-noremap k gk
-noremap gj j
-noremap gk k
-
-" Easy buffer navigation
-noremap <C-h> <C-w>h
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
-noremap <C-l> <C-w>l
-
-noremap <leader>v <C-w>v
-
-" Matchit uses Tab now to go to the matching paren, brace, etc.
-runtime macros/matchit.vim
-map <tab> %
-silent! unmap [%
-silent! unmap ]%
-
-" }}}
-
-" Folding {{{
-
-set foldlevelstart=0
-
-" Fold Markers
-set foldmethod=marker
-set foldmarker={{{,}}}
-
-" Space to toggle folds.
-nnoremap <Space> za
-vnoremap <Space> za
 
 " }}}
 
@@ -432,25 +302,15 @@ nnoremap gdl :diffget //3<CR>
 
 " }}}
 
-" Colors {{{
+" Color {{{
 
 syntax on
-hi clear SignColumn
 set background=dark
-let base16colorspace=256
+colorscheme dracula
 
+" Ensure terminal colors are used, if available.
 if (has("termguicolors"))
     set termguicolors
 endif
-
-hi StatusLine ctermbg=NONE cterm=NONE
-
-"colorscheme base16-gruvbox-dark-hard
-"colorscheme base16-atelier-dune
-colorscheme dracula
-
-"let g:oceanic_next_terminal_bold = 1
-"let g:oceanic_next_terminal_italic = 1
-"colorscheme OceanicNext
 
 " }}}
