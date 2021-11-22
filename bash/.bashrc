@@ -3,7 +3,7 @@
 # if not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-source /usr/local/Cellar/git/2.33.1_1/etc/bash_completion.d/git-prompt.sh
+source /usr/local/Cellar/git/2.34.0/etc/bash_completion.d/git-prompt.sh
 
 # prompt
 PS1="\[\033[34m\]strand:"
