@@ -184,6 +184,7 @@ call plug#begin('~/.vim/plugged')
 
     " Files
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() }}
+    Plug 'junegunn/fzf.vim'
 
     " Windows/Buffers/Tabs
     Plug 'qpkorr/vim-bufkill'
