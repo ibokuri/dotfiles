@@ -22,7 +22,6 @@ set scrolloff=8
 set sidescrolloff=8
 set nojoinspaces
 set splitright
-set clipboard=unnamedplus
 set confirm
 set exrc
 set backup
