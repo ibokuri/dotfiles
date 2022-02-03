@@ -1,0 +1,16 @@
+session_name: getty
+windows:
+  - window_name: editor
+    start_directory: ~/Projects/Personal/getty
+  - window_name: build
+    start_directory: ~/Projects/Personal/getty
+  - window_name: zig
+    start_directory: ~/Projects/Foreign/zig
+  - window_name: test
+    start_directory: ~/Projects/Personal/test
+    layout: even-horizontal
+    panes:
+    - focus: true
+      shell_command:
+      - nvim src/main.zig
+    -

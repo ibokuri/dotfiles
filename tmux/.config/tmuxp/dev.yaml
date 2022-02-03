@@ -1,0 +1,6 @@
+session_name: dev
+windows:
+  - window_name: editor
+    start_directory: ~/Projects/Personal
+  - window_name: build
+    start_directory: ~/Projects/Personal
