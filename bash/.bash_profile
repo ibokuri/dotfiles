@@ -6,7 +6,6 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 
 # Golang
 export GOPATH="$HOME/.go"
-export PATH="$PATH:$GOPATH/bin"
 
 # Zig
 export PATH=$PATH:/usr/local/bin/zig
