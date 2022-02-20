@@ -3,7 +3,7 @@
 # if not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-source /usr/local/Cellar/git/2.35.0/etc/bash_completion.d/git-prompt.sh
+source /usr/local/Cellar/git/*/etc/bash_completion.d/git-prompt.sh
 
 # prompt
 PS1="\[\033[34m\]strand:"
@@ -17,9 +17,6 @@ alias ls='exa'
 alias lst='exa -T'
 alias lsg='exa -T --git-ignore'
 
-alias cdp='cd ~/Projects/Personal'
-alias cdf='cd ~/Projects/Foreign'
-
 alias vim='nvim'
 
 alias ga='git add'
@@ -30,7 +27,7 @@ alias gl='git log'
 alias glo='git log --oneline'
 alias gp='git push'
 
-alias youtube-dl='youtube-dl -x --audio-format m4a'
+alias ytm='yt-dlp -x --audio-format m4a'
 
 # Prevent cron from telling us we got mail
 unset MAILCHECK
