@@ -1,5 +1,6 @@
 " General settings {{{
 
+set autowrite
 set expandtab
 set shiftwidth=4
 set tabstop=4
@@ -59,7 +60,7 @@ nnoremap s :w<cr>
 nnoremap K :q<cr>
 
 " Window tabs
-nnoremap <leader>t :tabnew<cr>
+nnoremap <leader>T :tabnew<cr>
 nnoremap <leader>> :tabnext<cr>
 nnoremap <leader>< :tabprev<cr>
 
@@ -207,8 +208,8 @@ let g:ale_sign_warning = '⚠'
 autocmd QuitPre * if empty(&bt) | lclose | endif
 
     " Go to next/prev error/warning
-nmap <silent> <C-n> <Plug>(ale_next_wrap)
-nmap <silent> <C-p> <Plug>(ale_previous_wrap)
+"nmap <silent> <C-n> <Plug>(ale_next_wrap)
+"nmap <silent> <C-p> <Plug>(ale_previous_wrap)
 
 
 " Coc
@@ -294,10 +295,39 @@ let g:lightline = {
 " Markdown
 let g:vim_markdown_folding_disabled = 1
 
+
 " Fugitive
 nnoremap <leader>gd :Gdiffsplit!<CR>
 nnoremap gdh :diffget //2<CR>
 nnoremap gdl :diffget //3<CR>
+
+
+" vim-go
+let g:go_list_type = "quickfix"
+let g:go_metalinter_autosave = 1
+let g:go_doc_keywordprg_enabled = 0
+
+map <C-n> :cnext<CR>
+map <C-p> :cprevious<CR>
+nnoremap <leader>a :cclose<CR>
+
+autocmd FileType go nmap <leader>r <Plug>(go-run)
+autocmd FileType go nmap <leader>t <Plug>(go-test)
+autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
+autocmd FileType go nmap <Leader>d <Plug>(go-doc)
+
+" run :GoBuild or :GoTestCompile based on the go file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+
+autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+
 
 " }}}
 
