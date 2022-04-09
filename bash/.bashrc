@@ -43,6 +43,4 @@ export LESS_TERMCAP_us=$'\e[01;4;31m'
 
 export EDITOR='nvim'
 
-[[ -n "$display" && "$term" = "screen" ]] && export term=screen-256color
-
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
