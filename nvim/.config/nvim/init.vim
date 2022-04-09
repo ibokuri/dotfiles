@@ -304,7 +304,7 @@ nnoremap gdl :diffget //3<CR>
 
 " vim-go
 let g:go_list_type = "quickfix"
-let g:go_metalinter_autosave = 1
+let g:go_metalinter_autosave_enabled = 1
 let g:go_doc_keywordprg_enabled = 0
 
 map <C-n> :cnext<CR>
