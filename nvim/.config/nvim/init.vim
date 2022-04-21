@@ -10,7 +10,7 @@ set relativenumber
 set number
 set termguicolors
 set undofile
-set spell
+set nospell
 set title
 set ignorecase
 set smartcase
@@ -50,7 +50,7 @@ let mapleader = ","
 
 " Configuration
 nmap <leader>ce :edit ~/.config/nvim/init.vim<cr>
-nmap <leader>cc :edit ~/.config/nvim/coc-settings.json<cr>
+nmap <leader>co :edit ~/.config/nvim/coc-settings.json<cr>
 nmap <leader>cr :source ~/.config/nvim/init.vim<cr>
 
 " Save
