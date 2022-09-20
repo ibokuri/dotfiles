@@ -13,3 +13,7 @@ export PATH=$PATH:/usr/local/bin/zig
 
 # Rust
 source "$HOME/.cargo/env"
+
+# Completions
+source /usr/local/etc/git-completion.bash
+export PATH="/usr/local/sbin:$PATH"
