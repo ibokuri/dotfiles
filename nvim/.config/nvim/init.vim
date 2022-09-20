@@ -156,6 +156,7 @@ call plug#begin('~/.vim/plugged')
     " Colors
     Plug 'chriskempson/base16-vim'
     Plug 'dracula/vim', { 'as': 'dracula' }
+    Plug 'gko/vim-coloresque'
 
     " NERD
     Plug 'scrooloose/nerdcommenter'
