@@ -1,5 +1,5 @@
 if [[ $- == *i* && -f ~/.bashrc ]]; then
-	. ~/.bashrc
+    . ~/.bashrc
 fi
 
 export BASH_SILENCE_DEPRECATION_WARNING=1
@@ -15,5 +15,5 @@ export PATH=$PATH:/usr/local/bin/zig
 source "$HOME/.cargo/env"
 
 # Completions
-source /usr/local/etc/git-completion.bash
+source /usr/local/etc/bash_completion.d/git-completion.bash
 export PATH="/usr/local/sbin:$PATH"
