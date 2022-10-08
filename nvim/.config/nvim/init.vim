@@ -42,6 +42,8 @@ augroup line_return
     \ endif
 augroup END
 
+autocmd FileType css,scss,yml,yaml setlocal shiftwidth=2 softtabstop=2 expandtab
+
 " }}}
 
 " Mappings {{{
