@@ -255,6 +255,8 @@ noremap <leader>N :NERDTreeToggle<cr>
     " Refresh NERDTree
 nmap <Leader>R :NERDTreeFocus<cr>R<c-w><c-p>
 
+" FZF
+let $FZF_DEFAULT_COMMAND = 'rg --files'
 
 " Ripgrep
 command! -bang -nargs=* Rg
