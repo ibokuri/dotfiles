@@ -32,6 +32,7 @@ alias glo='git log --oneline'
 alias gp='git push'
 
 alias ytm='yt-dlp -x --audio-format m4a'
+alias cdd='cd ~/Projects/Personal/discard'
 
 # Prevent cron from telling us we got mail
 unset MAILCHECK
