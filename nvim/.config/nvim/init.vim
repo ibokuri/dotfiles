@@ -181,6 +181,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-eunuch'
     Plug 'w0rp/ale'
+    Plug 'APZelos/blamer.nvim'
 
     " Projects
     Plug 'airblade/vim-rooter'
@@ -328,6 +329,9 @@ function! s:build_go_files()
 endfunction
 
 autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+
+" Git Blamer
+let g:blamer_enabled = 1
 
 
 " }}}
