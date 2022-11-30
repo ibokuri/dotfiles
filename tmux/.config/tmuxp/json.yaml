@@ -1,13 +1,13 @@
 session_name: json
 windows:
   - window_name: editor
-    start_directory: ~/Projects/Personal/json
+    start_directory: "$PERSONAL_PROJECTS_DIR/json"
   - window_name: build
-    start_directory: ~/Projects/Personal/json
+    start_directory: "$PERSONAL_PROJECTS_DIR/json"
   - window_name: zig
-    start_directory: ~/Projects/Foreign/zig
+    start_directory: "$FOREIGN_PROJECTS_DIR/zig"
   - window_name: test
-    start_directory: ~/Projects/Personal/test
+    start_directory: "$PERSONAL_PROJECTS_DIR/test"
     layout: even-horizontal
     panes:
     - focus: true

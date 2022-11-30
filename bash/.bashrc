@@ -12,12 +12,20 @@ PS1+='\[\033[90m\]$(__git_ps1 " (%s)")'
 PS1+="\[\033[31m\] ❯ \[\033[00m\]"
 export PS1;
 
+# environment variables
+export EDITOR='nvim'
+export PERSONAL_PROJECTS_DIR="$HOME/Projects/Personal"
+export FOREIGN_PROJECTS_DIR="$HOME/Projects/Foreign"
+
 # aliases
 alias vim='nvim'
 
 alias ls='exa'
 alias lst='exa -T'
 alias lsg='exa -T --git-ignore'
+
+alias cdp="cd $PERSONAL_PROJECTS_DIR"
+alias cdf="cd $FOREIGN_PROJECTS_DIR"
 
 alias ga='git add'
 alias gca='git commit --amend'
@@ -30,9 +38,6 @@ alias gds='git diff --staged'
 alias gl='git log'
 alias glo='git log --oneline'
 alias gp='git push'
-
-# environment variables
-export EDITOR='nvim'
 
 # Prevent cron from telling us we got mail
 unset MAILCHECK
