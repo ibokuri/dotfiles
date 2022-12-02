@@ -14,6 +14,9 @@
     editor = nvim
 	excludesfile = /Users/jason/.gitignore
 
+[credential]
+	helper = osxkeychain
+
 [difftool]
 	prompt = false
 
