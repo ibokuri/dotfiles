@@ -20,5 +20,5 @@
 4. Stow dotfiles.
 
     ```sh
-    stow [DIRECTORY ...]
+    stow -t ~ */
     ```
