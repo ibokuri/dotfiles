@@ -1,6 +1,7 @@
 tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/core"
+tap "homebrew/cask-fonts"
 
 brew "alacritty"
 brew "bash-completion@2"
@@ -32,6 +33,7 @@ brew "the_silver_searcher"
 brew "tmux"
 brew "tmuxp"
 brew "wget"
+brew "zig", args: ['HEAD']
 
 cask "1password"
 cask "appcleaner"
