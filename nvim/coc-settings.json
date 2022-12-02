@@ -1,0 +1,11 @@
+{
+  "suggest.noselect": true,
+  "suggest.enablePreselect": false,
+
+  "languageserver": {
+    "zls" : {
+      "command": "/usr/local/bin/zls",
+      "filetypes": ["zig"]
+    }
+  }
+}

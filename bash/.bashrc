@@ -1,9 +1,77 @@
 #!/usr/bin/env bash
 
-# if not running interactively, don't do anything
-[[ $- != *i* ]] && return
+# Basics
+: ${HOME=~}
+: ${LOGNAME=$(id -un)}
+: ${UNAME=$(uname)}
 
-# prompt
+#-------------------------------------------------------------------------------
+# Shell Options
+#-------------------------------------------------------------------------------
+
+# System bashrc
+test -r /etc/bash.bashrc && . /etc/bash.bashrc
+
+# Notify bg task completion immediately
+set -o notify
+
+# Disable mail notifications
+unset MAILCHECK
+
+# Default umask
+umask 0022
+
+#-------------------------------------------------------------------------------
+# Env. Configuration
+#-------------------------------------------------------------------------------
+
+# Detect interactive shell
+case "$-" in
+    *i*) INTERACTIVE=yes ;;
+    *)   unset INTERACTIVE ;;
+esac
+
+# Detect login shell
+case "$0" in
+    -*) LOGIN=yes ;;
+    *)  unset LOGIN ;;
+esac
+
+# Locale
+: ${LANG:="en_US.UTF-8"}
+: ${LANGUAGE:="en"}
+: ${LC_CTYPE:="en_US.UTF-8"}
+: ${LC_ALL:="en_US.UTF-8"}
+export LANG LANGUAGE LC_CTYPE LC_ALL
+
+# XDG config. This is different on Mac for historical reasons, but on our Linux
+# dev machines we can keep it clean. Its important anything we do that uses the
+# XDG directories uses the exported env vars directly.
+case $UNAME in
+    Linux*)
+        export XDG_CONFIG_HOME="$HOME/.config"
+        ;;
+    *)
+        export XDG_CONFIG_HOME="$HOME/.config"
+        ;;
+esac
+
+# Silence deprecation on Catalina
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
+#-------------------------------------------------------------------------------
+# Editor and Pager
+#-------------------------------------------------------------------------------
+
+export EDITOR='nvim'
+
+export PAGER="less -FirSwX"
+export MANPAGER="$PAGER"
+
+#-------------------------------------------------------------------------------
+# Prompt
+#-------------------------------------------------------------------------------
+
 source /usr/local/Cellar/git/*/etc/bash_completion.d/git-prompt.sh
 
 PS1="\[\033[34m\]strand:"
@@ -12,21 +80,26 @@ PS1+='\[\033[90m\]$(__git_ps1 " (%s)")'
 PS1+="\[\033[31m\] ❯ \[\033[00m\]"
 export PS1;
 
-# environment variables
-export EDITOR='nvim'
+#-------------------------------------------------------------------------------
+# Project Directories
+#-------------------------------------------------------------------------------
+
 export PERSONAL_PROJECTS_DIR="$HOME/Projects/Personal"
 export FOREIGN_PROJECTS_DIR="$HOME/Projects/Foreign"
 
-# aliases
+#-------------------------------------------------------------------------------
+# Aliases / Functions
+#-------------------------------------------------------------------------------
+
+# Vim
 alias vim='nvim'
 
+# Exa
 alias ls='exa'
 alias lst='exa -T'
 alias lsg='exa -T --git-ignore'
 
-alias cdp="cd $PERSONAL_PROJECTS_DIR"
-alias cdf="cd $FOREIGN_PROJECTS_DIR"
-
+# Git
 alias ga='git add'
 alias gca='git commit --amend'
 alias gcan='git commit --amend --no-edit'
@@ -39,8 +112,52 @@ alias gl='git log'
 alias glo='git log --oneline'
 alias gp='git push'
 
-# Prevent cron from telling us we got mail
-unset MAILCHECK
+# Project
+alias cdp="cd $PERSONAL_PROJECTS_DIR"
+alias cdf="cd $FOREIGN_PROJECTS_DIR"
 
-# fzf
+#-------------------------------------------------------------------------------
+# SSH Agent
+#-------------------------------------------------------------------------------
+
+SSH_ENV=$HOME/.ssh/environment
+
+function start_ssh_agent {
+    if [ ! -x "$(command -v ssh-agent)" ]; then
+        return
+    fi
+
+    if [ ! -d "$(dirname $SSH_ENV)" ]; then
+        mkdir -p $(dirname $SSH_ENV)
+        chmod 0700 $(dirname $SSH_ENV)
+    fi
+
+    ssh-agent | sed 's/^echo/#echo/' > ${SSH_ENV}
+    chmod 0600 ${SSH_ENV}
+    . ${SSH_ENV} > /dev/null
+    ssh-add
+}
+
+# Source SSH agent settings if it is already running, otherwise start up the
+# agent proprely.
+if [ -f "${SSH_ENV}" ]; then
+     . ${SSH_ENV} > /dev/null
+     # ps ${SSH_AGENT_PID} doesn't work under cywgin
+     ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+         start_ssh_agent
+     }
+else
+    case $UNAME in
+      MINGW*)
+        ;;
+      *)
+        start_ssh_agent
+        ;;
+    esac
+fi
+
+#-------------------------------------------------------------------------------
+# FZF
+#-------------------------------------------------------------------------------
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
