@@ -2,7 +2,7 @@
 
 ## Installation
 
-1. Grab GPG and SSH keys.
+1. Obtain personal SSH keys.
 
 2. Clone repository.
 
