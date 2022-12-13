@@ -1,7 +1,7 @@
 . ~/.bashrc
 
 # Zig
-export PATH=$PATH:/usr/local/bin/zig
+export PATH=$PATH:$HOME/.zvm/bin
 
 # Golang
 export GOPATH="$HOME/.go"
