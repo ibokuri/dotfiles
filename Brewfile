@@ -4,6 +4,7 @@ tap "homebrew/core"
 tap "homebrew/cask-fonts"
 
 brew "alacritty"
+brew "bash"
 brew "bash-completion@2"
 brew "cmake"
 brew "curl"
