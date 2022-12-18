@@ -20,7 +20,6 @@ brew "lnav"
 brew "mas"
 brew "mkvtoolnix"
 brew "moreutils"
-brew "mpv"
 brew "neovim"
 brew "node"
 brew "openssh"
@@ -62,5 +61,6 @@ cask "xld"
 cask "zotero"
 
 mas "Bear", id: 1091189122
+mas "Tailscale", id: 1475387142
 mas "Things", id: 904280696
 mas "Xcode", id: 497799835
