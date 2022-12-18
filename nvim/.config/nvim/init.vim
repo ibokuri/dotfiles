@@ -169,7 +169,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'itchyny/vim-gitbranch'
 
     " Languages
-    Plug 'fatih/vim-go'
+    "Plug 'fatih/vim-go'
     Plug 'rust-lang/rust.vim'
     Plug 'zig-lang/zig.vim'
 
