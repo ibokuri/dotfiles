@@ -3,7 +3,6 @@ tap "homebrew/cask"
 tap "homebrew/core"
 tap "homebrew/cask-fonts"
 
-brew "alacritty"
 brew "bash"
 brew "bash-completion@2"
 brew "cmake"
@@ -37,6 +36,7 @@ brew "wget"
 brew "zig", args: ['HEAD']
 
 cask "1password"
+cask "alacritty"
 cask "appcleaner"
 cask "balenaetcher"
 cask "discord"
