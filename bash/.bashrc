@@ -101,6 +101,7 @@ alias lsg='exa -T --git-ignore'
 
 # Git
 alias ga='git add'
+alias gb='git branch'
 alias gca='git commit --amend'
 alias gcan='git commit --amend --no-edit'
 alias gcm='git commit -m'
