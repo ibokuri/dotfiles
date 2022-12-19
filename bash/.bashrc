@@ -72,7 +72,7 @@ export MANPAGER="$PAGER"
 # Prompt
 #-------------------------------------------------------------------------------
 
-source /usr/local/Cellar/git/*/etc/bash_completion.d/git-prompt.sh
+source /opt/homebrew/Cellar/git/*/etc/bash_completion.d/git-prompt.sh
 
 PS1="\[\033[34m\]strand:"
 PS1+="\[\033[33m\]\w"
@@ -162,3 +162,10 @@ fi
 #-------------------------------------------------------------------------------
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+#-------------------------------------------------------------------------------
+# RVM
+#-------------------------------------------------------------------------------
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
