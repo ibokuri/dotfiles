@@ -12,7 +12,7 @@
 
 [core]
     editor = nvim
-	excludesfile = /Users/jason/.gitignore
+    excludesFile = ~/.gitignore
 
 [credential]
 	helper = osxkeychain
