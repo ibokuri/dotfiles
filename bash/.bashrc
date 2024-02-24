@@ -94,10 +94,10 @@ export FOREIGN_PROJECTS_DIR="$HOME/Projects/Foreign"
 # Vim
 alias vim='nvim'
 
-# Exa
-alias ls='exa'
-alias lst='exa -T'
-alias lsg='exa -T --git-ignore'
+# Eza
+alias ls='eza'
+alias lst='eza -T'
+alias lsg='eza -T --git-ignore'
 
 # Git
 alias ga='git add'
@@ -116,6 +116,17 @@ alias gp='git push'
 # Project
 alias cdp="cd $PERSONAL_PROJECTS_DIR"
 alias cdf="cd $FOREIGN_PROJECTS_DIR"
+alias cdd="cd $PERSONAL_PROJECTS_DIR/discard/"
+
+# Zig
+alias zigup='asdf uninstall zig master && asdf install zig master'
+alias zbt='zig build test'
+alias zbd='rm -rf zig-cache && zig build docs'
+alias zbbd='rm -rf zig-cache && zig build bench'
+alias zbbr='rm -rf zig-cache && zig build bench -Drelease=true'
+
+# Youtube
+alias ytm="yt-dlp -f ba[ext=m4a]"
 
 #-------------------------------------------------------------------------------
 # SSH Agent
@@ -169,3 +180,15 @@ fi
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+#-------------------------------------------------------------------------------
+# ASDF
+#-------------------------------------------------------------------------------
+
+. "/opt/homebrew/opt/asdf/etc/bash_completion.d/asdf.bash"
+
+#-------------------------------------------------------------------------------
+# Rust
+#-------------------------------------------------------------------------------
+
+. "$HOME/.cargo/env"
