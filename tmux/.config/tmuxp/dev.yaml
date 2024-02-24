@@ -4,3 +4,13 @@ windows:
     start_directory: "$PERSONAL_PROJECTS_DIR"
   - window_name: build
     start_directory: "$PERSONAL_PROJECTS_DIR"
+  - window_name: zig
+    start_directory: "$FOREIGN_PROJECTS_DIR/zig"
+  - window_name: test
+    start_directory: "$PERSONAL_PROJECTS_DIR/test"
+    layout: even-horizontal
+    panes:
+    - focus: true
+      shell_command:
+      - nvim src/main.zig
+    -
