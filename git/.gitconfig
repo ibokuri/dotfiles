@@ -1,24 +1,16 @@
-[alias]
-  prettylog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-
-[branch]
-  autosetuprebase = always
-
-[color]
-	ui = true
-
-[commit]
-	gpgsign = true
-
 [core]
     editor = nvim
     excludesFile = ~/.gitignore
+	fsmonitor = true
+    pager = delta
 
-[credential]
-	helper = osxkeychain
+[init]
+	defaultBranch = main
 
-[difftool]
-	prompt = false
+[user]
+	name = Danh Phan
+	email = input@danh.computer
+	signingkey = F1C20A47F6057C43
 
 [github]
 	user = ibokuri
@@ -26,32 +18,54 @@
 [gpg]
 	program = gpg2
 
-[init]
-	defaultBranch = main
-
-[push]
-	default = tracking
-	autoSetupRemote = true
-
-[pull]
-    rebase = true
+[credential]
+	helper = osxkeychain
 
 [sendemail]
 	smtpencryption = tls
 	smtpserver = smtp.gmail.com
-	smtpuser = jason@ket.so
+	smtpuser = input@danh.computer
 	smtpserverport = 587
 	chainreplyto = false
-	aliasesfile = /Users/jason/.gitaliases
+	aliasesfile = $HOME/.gitaliases
 	aliasfiletype = mailrc
-
-[user]
-	name = Jason Phan
-	email = jason@ket.so
-	signingkey = 7739EA0C9A4A1EF1
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+
+[branch]
+  autosetuprebase = always
+
+[commit]
+	gpgsign = true
+
+[push]
+	default = tracking
+	autoSetupRemote = true
+
+[pull]
+    ff = only
+
+[merge]
+    conflictstyle = zdiff3
+
+[rebase]
+    autosquash = true
+
+[diff]
+    algorithm = histogram
+
+[interactive]
+    diffFilter = delta --color-only
+
+[help]
+    autocorrect = prompt
+
+[maintenance]
+	repo = $HOME/Projects/Foreign/zig
+
+[fetch]
+	writeCommitGraph = true
