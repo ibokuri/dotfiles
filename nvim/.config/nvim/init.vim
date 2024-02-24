@@ -27,7 +27,7 @@ set confirm
 set exrc
 set backup
 set backupdir=~/.local/share/nvim/backup/
-set updatetime=300 " Reduce time for highlighting other references
+set updatetime=25 " Reduce time for highlighting other references
 set redrawtime=10000 " Allow more time for loading syntax on large files
 set foldlevelstart=0
 set foldmethod=marker
@@ -60,11 +60,12 @@ nnoremap s :w<cr>
 
 " Quit
 nnoremap K :q<cr>
+nnoremap q :q<cr>
 
 " Window tabs
-nnoremap <leader>T :tabnew<cr>
-nnoremap <leader>> :tabnext<cr>
-nnoremap <leader>< :tabprev<cr>
+nnoremap tn :tabnew<cr>
+nnoremap tl :tabnext<cr>
+nnoremap th :tabprev<cr>
 
 " Window splits
 nnoremap <leader>wv :vs 
@@ -117,11 +118,6 @@ nnoremap D d$
 " Remove trailing whitespace
 nnoremap <leader>ww mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 
-" Find
-nnoremap <leader>r :Rg<cr>
-nnoremap <leader>f :Files<cr>
-nnoremap <leader>F :GFiles<cr>
-
 " Substitute
 nnoremap <leader>s :%s/
 
@@ -143,107 +139,137 @@ nnoremap <leader>O :!open .<cr>
 nnoremap <Space> za
 vnoremap <Space> za
 
+" GitHub
+nnoremap gh :'<,'>OpenGithubFile
+nnoremap gH :OpenGithubFile
+
 " }}}
 
 " Plugins (I) {{{
 
-" ALE (compatability with COC)
-let g:ale_disable_lsp = 1
-
-" packadd
-packadd termdebug
-
 " vim-plug
 call plug#begin('~/.vim/plugged')
-    " Colors
-    Plug 'chriskempson/base16-vim'
-    Plug 'dracula/vim', { 'as': 'dracula' }
-    Plug 'gko/vim-coloresque'
-
-    " NERD
+    " Sidebar
     Plug 'scrooloose/nerdcommenter'
     Plug 'scrooloose/nerdtree'
+    Plug 'ryanoasis/vim-devicons'
 
-    " Status Lines
+    " Status Line
     Plug 'itchyny/lightline.vim'
     Plug 'itchyny/vim-gitbranch'
 
     " Languages
-    "Plug 'fatih/vim-go'
     Plug 'rust-lang/rust.vim'
+    Plug 'simrat39/rust-tools.nvim'
     Plug 'zig-lang/zig.vim'
 
     " Code
-    Plug 'airblade/vim-gitgutter'
     Plug 'markonm/traces.vim'
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'raimondi/delimitmate'
-    Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-eunuch'
-    Plug 'w0rp/ale'
-    Plug 'APZelos/blamer.nvim'
+    Plug 'peterrincker/vim-argumentative'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+    Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
+    Plug 'rrethy/vim-illuminate'
+
+    " LSP
+    Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v2.x'}
+    Plug 'neovim/nvim-lspconfig'                           " Required
+    Plug 'williamboman/mason.nvim', {'do': ':MasonUpdate'} " Optional
+    Plug 'williamboman/mason-lspconfig.nvim'               " Optional
+
+    " Autocompletion
+    Plug 'hrsh7th/nvim-cmp'     " Required
+    Plug 'hrsh7th/cmp-nvim-lsp' " Required
+    Plug 'L3MON4D3/LuaSnip'     " Required
+
+    " Git
+    Plug 'airblade/vim-gitgutter'
+    Plug 'tpope/vim-fugitive'
+    Plug 'tyru/open-browser-github.vim'
+    Plug 'tyru/open-browser.vim'
+    Plug 'ruanyl/vim-gh-line'
 
     " Projects
     Plug 'airblade/vim-rooter'
 
-    " Files
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() }}
-    Plug 'junegunn/fzf.vim'
-
-    " Windows/Buffers/Tabs
+    " Buffers
     Plug 'qpkorr/vim-bufkill'
 
-    " Icons
-    Plug 'ryanoasis/vim-devicons'
-
+    " Colors
+    Plug 'chriskempson/base16-vim'
+    Plug 'dracula/vim', { 'as': 'dracula' }
+    Plug 'gko/vim-coloresque'
 call plug#end()
 
 " }}}
 
 " Plugins (II) {{{
 
-" Ale
-    " Options
-let g:ale_lint_delay=0
-let g:ale_sign_error = '✗'
-let g:ale_sign_warning = '⚠'
+" LSP
 
-    " Close error buffer when the associated file is closed
-autocmd QuitPre * if empty(&bt) | lclose | endif
+:lua <<EOF
+local lsp = require('lsp-zero').preset({})
+local cmp = require('cmp')
+local cmp_action = require('lsp-zero').cmp_action()
 
-    " Go to next/prev error/warning
-"nmap <silent> <C-n> <Plug>(ale_next_wrap)
-"nmap <silent> <C-p> <Plug>(ale_previous_wrap)
+cmp.setup({
+  mapping = {
+    -- Navigate between completion item
+    ['<C-k>'] = cmp.mapping.select_prev_item(),
+    ['<C-j>'] = cmp.mapping.select_next_item(),
+
+    -- Confirm item
+    ['<Tab>'] = cmp.mapping.confirm({select = true}),
+  }
+})
+
+lsp.on_attach(function(client, bufnr)
+  lsp.default_keymaps({buffer = bufnr})
+end)
+
+lsp.setup_servers({'zls'})
+
+local rust_tools = require('rust-tools')
+rust_tools.setup({
+  server = {
+    on_attach = function(client, bufnr)
+      vim.keymap.set('n', '<leader>ca', rust_tools.hover_actions.hover_actions, {buffer = bufnr})
+    end
+  }
+})
+
+lsp.setup()
+EOF
 
 
-" Coc
-    " Mappings
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gt <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+" Telescope
 
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nnoremap <leader>f <cmd>Telescope find_files<cr>
+nnoremap <leader>G <cmd>Telescope live_grep<cr>
+nnoremap <leader>B <cmd>Telescope buffers<cr>
 
-    " use <tab> for trigger completion and navigate to the next complete item
-inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+:lua << EOF
+local actions = require("telescope.actions")
 
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+require("telescope").setup{
+  defaults = {
+    mappings = {
+      i = {
+        ["<esc>"] = actions.close,
 
-    " Space for displaying messages
-set cmdheight=1
+        ['<C-n>'] = false,
+        ['<C-p>'] = false,
+        ['<C-j>'] = actions.move_selection_next,
+        ['<C-k>'] = actions.move_selection_previous,
+      },
+    },
+  }
+}
 
-    " Don't pass messages to |ins-completion-menu|.
-set shortmess+=c
-
+require('telescope').load_extension('fzf')
+EOF
 
 " NERDTree
 let NERDTreeMinimalUI = 1
@@ -259,25 +285,12 @@ let g:NERDTreeNodeDelimiter = "\u00a0"
 noremap <leader>N :NERDTreeToggle<cr>
 
     " Refresh NERDTree
-nmap <Leader>R :NERDTreeFocus<cr>R<c-w><c-p>
-
-" FZF
-let $FZF_DEFAULT_COMMAND = 'rg --files'
-
-" Ripgrep
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
+nmap <Leader>t :NERDTreeFocus<cr>R<c-w><c-p>
 
 
 " Lightline
 let g:lightline = {}
-
 let g:lightline.subseparator = { 'left': '', 'right': '' }
-
 let g:lightline = {
     \ 'colorscheme': 'dracula',
     \
@@ -297,44 +310,28 @@ let g:lightline = {
     \ }
 
 
-" Markdown
-let g:vim_markdown_folding_disabled = 1
+" Git Gutter
+nmap ga <Plug>(GitGutterStageHunk) " git add (chunk)
+nmap gu <Plug>(GitGutterUndoHunk)  " git undo (chunk)
+
+nmap gn <Plug>(GitGutterNextHunk)  " git next
+nmap gp <Plug>(GitGutterPrevHunk)  " git previous
 
 
 " Fugitive
-nnoremap <leader>gd :Gdiffsplit!<CR>
-nnoremap gdh :diffget //2<CR>
-nnoremap gdl :diffget //3<CR>
+nnoremap gs :Git<CR>
+nnoremap gb :Git branch<CR>
+nnoremap gl :Git log<CR>
 
+nnoremap dv :Gvdiffsplit<CR>
 
-" vim-go
-let g:go_list_type = "quickfix"
-let g:go_metalinter_autosave_enabled = 1
-let g:go_doc_keywordprg_enabled = 0
-
-map <C-n> :cnext<CR>
-map <C-p> :cprevious<CR>
-nnoremap <leader>a :cclose<CR>
-
-autocmd FileType go nmap <leader>r <Plug>(go-run)
-autocmd FileType go nmap <leader>t <Plug>(go-test)
-autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
-autocmd FileType go nmap <Leader>d <Plug>(go-doc)
-
-" run :GoBuild or :GoTestCompile based on the go file
-function! s:build_go_files()
-  let l:file = expand('%')
-  if l:file =~# '^\f\+_test\.go$'
-    call go#test#Test(0, 1)
-  elseif l:file =~# '^\f\+\.go$'
-    call go#cmd#Build(0)
-  endif
-endfunction
-
-autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
 
 " Git Blamer
 let g:blamer_enabled = 1
+
+" vim-illuminate
+let g:Illuminate_delay = 0
+let g:Illuminate_ftblacklist = ['nerdtree']
 
 
 " }}}
