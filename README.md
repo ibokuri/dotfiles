@@ -8,7 +8,7 @@
 
     ```sh
     git clone git@github.com:ibokuri/dotfiles.git ~/.dotfiles
-    cd dotfiles
+    cd ~/.dotfiles
     ```
 
 3. Install brew packages.
