@@ -2,7 +2,6 @@
     editor = nvim
     excludesFile = ~/.gitignore
 	fsmonitor = true
-    pager = delta
 
 [init]
 	defaultBranch = main
@@ -49,23 +48,27 @@
 [pull]
     ff = only
 
-[merge]
-    conflictstyle = zdiff3
-
 [rebase]
     autosquash = true
 
 [diff]
     algorithm = histogram
 
-[interactive]
-    diffFilter = delta --color-only
-
 [help]
     autocorrect = prompt
 
-[maintenance]
-	repo = $HOME/Projects/Foreign/zig
-
 [fetch]
 	writeCommitGraph = true
+
+[diff]
+    tool = difftastic
+    external = difft
+
+[difftool]
+    prompt = false
+
+[difftool "difftastic"]
+    cmd = difft "$LOCAL" "$REMOTE"
+
+[pager]
+    difftool = true
