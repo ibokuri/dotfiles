@@ -13,15 +13,15 @@
     sort = version:refname
 
 [user]
-    name = Jason Phan
+    name = Danh Phan
     email = input@danh.computer
-    signingkey = 3AA78CDE
+    signingkey = F6057C43
 
 [github]
     user = ibokuri
 
 [gpg]
-    program = /opt/homebrew/bin/gpg
+    program = gpg2
 
 [credential]
     helper = osxkeychain
