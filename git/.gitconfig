@@ -1,63 +1,79 @@
+[init]
+    defaultBranch = main
+
 [core]
     editor = nvim
     excludesFile = ~/.gitignore
-	fsmonitor = true
+    fsmonitor = false
 
-[init]
-	defaultBranch = main
+[column]
+    ui = auto
+
+[tag]
+    sort = version:refname
 
 [user]
-	name = Danh Phan
-	email = input@danh.computer
-	signingkey = F1C20A47F6057C43
+    name = Jason Phan
+    email = input@danh.computer
+    signingkey = 3AA78CDE
 
 [github]
-	user = ibokuri
+    user = ibokuri
 
 [gpg]
-	program = gpg2
+    program = /opt/homebrew/bin/gpg
 
 [credential]
-	helper = osxkeychain
+    helper = osxkeychain
 
 [sendemail]
-	smtpencryption = tls
-	smtpserver = smtp.gmail.com
-	smtpuser = input@danh.computer
-	smtpserverport = 587
-	chainreplyto = false
-	aliasesfile = $HOME/.gitaliases
-	aliasfiletype = mailrc
+    smtpencryption = tls
+    smtpserver = smtp.gmail.com
+    smtpuser = input@danh.computer
+    smtpserverport = 587
+    chainreplyto = false
+    aliasesfile = $HOME/.gitaliases
+    aliasfiletype = mailrc
 
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
 
 [branch]
   autosetuprebase = always
+  sort = -committerdate
 
 [commit]
-	gpgsign = true
+    gpgsign = true
 
 [push]
-	default = tracking
-	autoSetupRemote = true
+    default = simple
+    autoSetupRemote = true
+    followTags = true
 
 [pull]
     ff = only
 
 [rebase]
     autosquash = true
+    autostash = true
 
 [diff]
     algorithm = histogram
+    algorithm = histogram
+    colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
 
 [help]
     autocorrect = prompt
 
 [fetch]
+    prune = true
+    pruneTags = true
+    all = true
 	writeCommitGraph = true
 
 [diff]

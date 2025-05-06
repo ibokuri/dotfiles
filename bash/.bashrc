@@ -5,6 +5,11 @@
 : ${LOGNAME=$(id -un)}
 : ${UNAME=$(uname)}
 
+# Ghostty shell integration for Bash. This should be at the top of your bashrc!
+if [ -n "${GHOSTTY_RESOURCES_DIR}" ]; then
+    builtin source "${GHOSTTY_RESOURCES_DIR}/shell-integration/bash/ghostty.bash"
+fi
+
 #-------------------------------------------------------------------------------
 # Shell Options
 #-------------------------------------------------------------------------------
@@ -112,21 +117,15 @@ alias gds='git diff --staged'
 alias gl='git log'
 alias glo='git log --oneline'
 alias gp='git push'
+alias gpf='git push --force-with-lease'
 
 # Project
 alias cdp="cd $PERSONAL_PROJECTS_DIR"
 alias cdf="cd $FOREIGN_PROJECTS_DIR"
-alias cdd="cd $PERSONAL_PROJECTS_DIR/discard/"
 
-# Zig
-alias zigup='asdf uninstall zig master && asdf install zig master'
-alias zbt='rm -rf zig-cache && zig build test'
-alias zbd='rm -rf zig-cache && zig build docs'
-alias zbbd='rm -rf zig-cache && zig build bench'
-alias zbbr='rm -rf zig-cache && zig build bench -Drelease=true'
-
-# Youtube
-alias ytm="yt-dlp -f ba[ext=m4a]"
+# Youtube (2)
+alias ytm="yt-dlp -x --audio-format m4a --audio-quality 0"
+alias ytm3="yt-dlp -x --audio-format mp3 --audio-quality 0"
 
 #-------------------------------------------------------------------------------
 # SSH Agent
@@ -180,12 +179,6 @@ fi
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
-
-#-------------------------------------------------------------------------------
-# ASDF
-#-------------------------------------------------------------------------------
-
-. "/opt/homebrew/opt/asdf/etc/bash_completion.d/asdf.bash"
 
 #-------------------------------------------------------------------------------
 # Rust
