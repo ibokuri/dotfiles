@@ -93,7 +93,7 @@ set foldmethod=marker
 set foldmarker={{{,}}}
 
 " Override tab settings for specific file types
-autocmd FileType css,scss,yml,yaml setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType css,scss,yml,yaml setlocal shiftwidth=4 softtabstop=4 expandtab
 
 " }}}
 
@@ -253,9 +253,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'qpkorr/vim-bufkill'
 
     " Colorschemes
-    Plug 'chriskempson/base16-vim'
     Plug 'dracula/vim', { 'as': 'dracula' }
-    Plug 'gko/vim-coloresque'
 
 " End the block for declaring plugins
 call plug#end()
