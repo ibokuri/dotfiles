@@ -120,7 +120,7 @@ alias cdd="cd $PERSONAL_PROJECTS_DIR/discard/"
 
 # Zig
 alias zigup='asdf uninstall zig master && asdf install zig master'
-alias zbt='zig build test'
+alias zbt='rm -rf zig-cache && zig build test'
 alias zbd='rm -rf zig-cache && zig build docs'
 alias zbbd='rm -rf zig-cache && zig build bench'
 alias zbbr='rm -rf zig-cache && zig build bench -Drelease=true'
