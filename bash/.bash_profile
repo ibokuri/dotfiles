@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+set -m
+
 . ~/.bashrc
 
 # Homebrew
