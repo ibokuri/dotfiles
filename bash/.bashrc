@@ -123,7 +123,7 @@ alias gpf='git push --force-with-lease'
 alias cdp="cd $PERSONAL_PROJECTS_DIR"
 alias cdf="cd $FOREIGN_PROJECTS_DIR"
 
-# Youtube (2)
+# Youtube
 alias ytm="yt-dlp -x --audio-format m4a --audio-quality 0"
 alias ytm3="yt-dlp -x --audio-format mp3 --audio-quality 0"
 
@@ -172,16 +172,3 @@ fi
 #-------------------------------------------------------------------------------
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-#-------------------------------------------------------------------------------
-# RVM
-#-------------------------------------------------------------------------------
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-
-#-------------------------------------------------------------------------------
-# Rust
-#-------------------------------------------------------------------------------
-
-. "$HOME/.cargo/env"
